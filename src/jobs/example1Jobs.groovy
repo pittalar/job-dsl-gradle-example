@@ -1,27 +1,29 @@
 String basePath = 'example1'
-String repo = 'sheehan/gradle-example'
+String repo = 'pittalar/simplespringboot'
 
 folder(basePath) {
     description 'This example shows basic folder/job creation.'
 }
 
-job("$basePath/gradle-example-build") {
+mavenJob('example') {
+    logRotator(-1, 10)
+    jdk('Java 8')
     scm {
-        github repo
+        github(repo, 'master')
     }
     triggers {
-        scm 'H/5 * * * *'
+        githubPush()
     }
-    steps {
-        gradle 'assemble'
-    }
-}
-
-job("$basePath/gradle-example-deploy") {
-    parameters {
-        stringParam 'host'
-    }
-    steps {
-        shell 'scp war file; restart...'
+    goals('clean install')
+	
+	steps {
+        dockerBuildAndPublish {
+            repositoryName('rameshpi/simplespringboot')
+            tag('${BUILD_TIMESTAMP}-${GIT_REVISION,length=7}')
+            registryCredentials('7e899a8d-def3-486b-ab4f-7f0a62d76d05')
+            forcePull(false)
+            createFingerprints(false)
+            skipDecorate()
+        }
     }
 }
