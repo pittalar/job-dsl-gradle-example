@@ -15,8 +15,10 @@ mavenJob('example') {
         githubPush()
     }
     goals('clean install')
-	
-	steps {
+		
+}
+
+steps {
         dockerBuildAndPublish {
             repositoryName('rameshpi/simplespringboot')
             tag('${BUILD_TIMESTAMP}-${GIT_REVISION,length=7}')
@@ -26,4 +28,3 @@ mavenJob('example') {
             skipDecorate()
         }
     }
-}
