@@ -5,23 +5,14 @@ folder(basePath) {
     description 'This example shows basic folder/job creation.'
 }
 
-job("$basePath/gradle-example-build") {
+mavenJob('example') {
+    logRotator(-1, 10)
+    jdk('Java 8')
     scm {
-        github repo
+        github(repo, 'master')
     }
     triggers {
-        scm 'H/5 * * * *'
+        githubPush()
     }
-    steps {
-        gradle 'assemble'
-    }
-}
-
-job("$basePath/gradle-example-deploy") {
-    parameters {
-        stringParam 'host'
-    }
-    steps {
-        shell 'scp war file; restart...'
-    }
+    goals('clean install')
 }
