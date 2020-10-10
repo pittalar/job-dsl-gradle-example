@@ -4,11 +4,13 @@ multibranchPipelineJob('Dsl') {
             id('123456789')
             
             remote('https://github.com/pittalar/simplespringboot.git')
+            
+            extensions {
+                cleanBeforeCheckout()
+            }
         }
     }
-    extensions {
-        cleanBeforeCheckout()
-    }
+    
     orphanedItemStrategy {
         discardOldItems {
             numToKeep(20)
