@@ -9,8 +9,12 @@ multibranchPipelineJob('Dsl') {
                 git {
                     id('987654321')
                     remote('https://github.com/pittalar/simplespringboot.git')    
-                    extensions {
-                        cleanBeforeCheckout()
+                    traits {
+                        cleanBeforeCheckoutTrait {
+                            extension {                            
+                                deleteUntrackedNestedRepositories(true)
+                            }
+                        }
                     }
                 }  
             } 
