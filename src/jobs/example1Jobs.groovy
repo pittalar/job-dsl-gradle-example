@@ -26,3 +26,4 @@ pipelineJob('Your App Pipeline') {
       } 
     } 
   }
+}
