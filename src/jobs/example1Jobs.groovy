@@ -1,30 +1,28 @@
-String basePath = 'example1'
-String repo = 'pittalar/simplespringboot'
+pipelineJob('Your App Pipeline') { 
 
-folder(basePath) {
-    description 'This example shows basic folder/job creation.'
-}
+  def repo = 'https://github.com/pittalar/job-dsl-gradle-example.git' 
+ 
+  description("Your App Pipeline") 
+  keepDependencies(false) 
 
-mavenJob('example') {
-    logRotator(-1, 10)
-    jdk('Java 8')
-    scm {
-        github(repo, 'master')
-    }
-    triggers {
-        githubPush()
-    }
-    goals('clean install')
-		
-}
+  properties{ 
 
-steps {
-        dockerBuildAndPublish {
-            repositoryName('rameshpi/simplespringboot')
-            tag('${BUILD_TIMESTAMP}-${GIT_REVISION,length=7}')
-            registryCredentials('7e899a8d-def3-486b-ab4f-7f0a62d76d05')
-            forcePull(false)
-            createFingerprints(false)
-            skipDecorate()
-        }
-    }
+    githubProjectUrl (repo) 
+    rebuild { 
+      autoRebuild(false) 
+    } 
+  } 
+
+  definition { 
+
+    cpsScm { 
+      scm { 
+        git { 
+          remote { url(repo) } 
+          branches('master') 
+          scriptPath('Jenkinsfile') 
+          extensions { }  // required as otherwise it may try to tag the repo, which you may not want 
+        } 
+      } 
+    } 
+  }
