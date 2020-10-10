@@ -2,7 +2,7 @@ multibranchPipelineJob('Dsl') {
     branchSources {
         git {
             id('123456789') // IMPORTANT: use a constant and unique identifier
-            remote('https://github.com/jenkinsci/job-dsl-plugin.git')
+            remote('https://github.com/pittalar/simplespringboot.git')
         }
         branchSource {
             source {
