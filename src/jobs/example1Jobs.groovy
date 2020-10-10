@@ -8,11 +8,11 @@ multibranchPipelineJob('Dsl') {
             source {
                 git {
                     id('987654321')
-                    remote('https://github.com/pittalar/simplespringboot.git')            
-                }
-                 extensions {
-                    cleanBeforeCheckout()
-                }
+                    remote('https://github.com/pittalar/simplespringboot.git')    
+                    extensions {
+                        cleanBeforeCheckout()
+                    }
+                }  
             } 
         }
     }
