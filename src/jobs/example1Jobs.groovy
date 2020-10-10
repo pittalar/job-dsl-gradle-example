@@ -1,16 +1,21 @@
 multibranchPipelineJob('Dsl') {
-    branchSource {
+    branchSources {
+        git {
+            id('123456789') // IMPORTANT: use a constant and unique identifier
+            remote('https://github.com/jenkinsci/job-dsl-plugin.git')
+        }
+        branchSource {
             source {
                 git {
-                    id('123456789')
+                    id('987654321')
                     remote('https://github.com/pittalar/simplespringboot.git')            
                 }
                  extensions {
                     cleanBeforeCheckout()
                 }
             } 
+        }
     }
-    
     orphanedItemStrategy {
         discardOldItems {
             numToKeep(20)
