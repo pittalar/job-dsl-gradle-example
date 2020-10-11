@@ -1,5 +1,9 @@
+import groovy.json.JsonSlurper
+
+List branches = ['master','devlop','release']
+
 multibranchPipelineJob('Dsl') {
-    branchSources {
+   branches.each { branch ->
         git {
             id('123456789') // IMPORTANT: use a constant and unique identifier
             remote('https://github.com/pittalar/simplespringboot.git')
