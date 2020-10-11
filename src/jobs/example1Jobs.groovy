@@ -1,28 +1,28 @@
-pipelineJob('Your App Pipeline') { 
+import groovy.json.JsonSlurper
 
-  def repo = 'https://github.com/pittalar/job-dsl-gradle-example.git' 
- 
-  description("Your App Pipeline") 
-  keepDependencies(false) 
+List branches = ['master','devlop','release']
 
-  properties{ 
-
-    githubProjectUrl (repo) 
-    rebuild { 
-      autoRebuild(false) 
-    } 
-  } 
-
-  definition { 
-
-    cpsScm { 
-      scm { 
-        git { 
-          remote { url(repo) } 
-          branches('master') 
-          scriptPath('Jenkinsfile') 
-          extensions { }  // required as otherwise it may try to tag the repo, which you may not want 
-        } 
-      } 
-    } 
-  }
+multibranchPipelineJob('Dsl') {
+   branches.each { branch ->
+        branchSource {
+            source {
+                git {
+                    id('987654321')
+                    remote('https://github.com/pittalar/simplespringboot.git')    
+                    traits {
+                        cleanBeforeCheckoutTrait {
+                            extension {                            
+                                deleteUntrackedNestedRepositories(true)
+                            }
+                        }
+                    }
+                }  
+            } 
+        }
+    }
+    orphanedItemStrategy {
+        discardOldItems {
+            numToKeep(20)
+        }
+    }
+}
