@@ -4,10 +4,6 @@ List branches = ['master','devlop','release']
 
 multibranchPipelineJob('Dsl') {
    branches.each { branch ->
-        git {
-            id('123456789') // IMPORTANT: use a constant and unique identifier
-            remote('https://github.com/pittalar/simplespringboot.git')
-        }
         branchSource {
             source {
                 git {
